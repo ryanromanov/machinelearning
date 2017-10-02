@@ -21,6 +21,8 @@ df = df[['Adj. Close','HL_PCT','PCT_change','Adj. Volume']]
 forecast_col = 'Adj. Close'
 df.fillna(-99999, inplace=True)
 
+# this is how you select how far you want to forecast forward
+# it's based on a percent of the total amount of days available
 forecast_out = int(math.ceil(0.01*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
