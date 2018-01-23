@@ -13,18 +13,18 @@ quandl.ApiConfig.api_key = "Fa83dnsHpaibjtDPhjyF"
 
 df = quandl.get('BCHARTS/COINBASEUSD')
 
-df = df[['Adj. Open', 'Adj. High', 'Adj. Low', 'Adj. Close', 'Adj. Volume',]]
-df['HL_PCT'] = (df['Adj. High'] - df['Adj. Low']) / df ['Adj. Close'] * 100.0
-df['PCT_change'] = (df['Adj. Close'] - df['Adj. Open']) / df ['Adj. Open'] * 100.0
+df = df[['Open', 'High', 'Low', 'Close', 'Volume (Currency)',]]
+df['HL_PCT'] = (df['High'] - df['Low']) / df ['Close'] * 100.0
+df['PCT_change'] = (df['Close'] - df['Open']) / df ['Open'] * 100.0
 
-df = df[['Adj. Close','HL_PCT','PCT_change','Adj. Volume']]
+df = df[['Close','HL_PCT','PCT_change','Volume (Currency)']]
 
-forecast_col = 'Adj. Close'
+forecast_col = 'Close'
 df.fillna(-99999, inplace=True)
 
 # this is how you select how far you want to forecast forward
 # it's based on a percent of the total amount of days available
-forecast_out = int(math.ceil(0.01*len(df)))
+forecast_out = int(math.ceil(0.1*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
 
@@ -66,7 +66,7 @@ for i in forecast_set:
 
 print(df.tail())
 
-df['Adj. Close'].plot()
+df['Close'].plot()
 df['Forecast'].plot()
 plt.legend(loc=4)
 plt.xlabel('Date')
